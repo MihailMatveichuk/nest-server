@@ -24,6 +24,13 @@ export class UsersController {
     return this.userService.getAll();
   }
 
+  @ApiOperation({ summary: 'Get user by email' })
+  @ApiResponse({ status: 200, type: User })
+  @Get()
+  getUserByEmail(@Body('email') email: string) {
+    return this.userService.getUserByEmail(email);
+  }
+
   @ApiOperation({ summary: 'Create user' })
   @ApiResponse({ status: 200, type: User })
   @Post()
