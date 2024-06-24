@@ -1,5 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import {
+  BelongsToMany,
+  Column,
+  DataType,
+  Model,
+  Table,
+} from 'sequelize-typescript';
+import { Role } from 'src/roles/role.model';
+import { UserRoles } from 'src/roles/user-roles.module';
 
 interface IUserCreationAttributes {
   email: string;
@@ -8,7 +16,11 @@ interface IUserCreationAttributes {
 
 @Table({ tableName: 'users' })
 export class User extends Model<User, IUserCreationAttributes> {
-  @ApiProperty({ example: '1', description: 'Unique identifier' })
+  @ApiProperty({
+    example: '1',
+    description: 'Unique identifier',
+    uniqueItems: true,
+  })
   @Column({
     type: DataType.INTEGER,
     unique: true,
@@ -17,7 +29,11 @@ export class User extends Model<User, IUserCreationAttributes> {
   })
   id: number;
 
-  @ApiProperty({ example: 'mike@gmail.com', description: 'User email' })
+  @ApiProperty({
+    example: 'mike@gmail.com',
+    description: 'User email',
+    uniqueItems: true,
+  })
   @Column({ type: DataType.STRING, unique: true, allowNull: false })
   email: string;
 
@@ -36,4 +52,7 @@ export class User extends Model<User, IUserCreationAttributes> {
     defaultValue: 'No reason',
   })
   banReason: string;
+
+  @BelongsToMany(() => Role, () => UserRoles)
+  roles: Role[];
 }
