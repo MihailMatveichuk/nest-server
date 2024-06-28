@@ -5,11 +5,14 @@ import { ConfigModule } from '@nestjs/config';
 import { User } from './users/user.model';
 import { RolesModule } from './roles/roles.module';
 import { Role } from './roles/role.model';
-import { UserRoles } from './roles/user-roles.module';
+import { UserRoles } from './roles/user-roles.model';
 import { AuthModule } from './auth/auth.module';
+import { PostsController } from './posts/posts.controller';
+import { PostsModule } from './posts/posts.module';
+import { Post } from './posts/posts.model';
 
 @Module({
-  controllers: [],
+  controllers: [PostsController],
   providers: [],
   imports: [
     ConfigModule.forRoot({
@@ -22,12 +25,13 @@ import { AuthModule } from './auth/auth.module';
       username: process.env.POSTGRES_USER,
       password: process.env.POSTGRES_PASSWORD,
       database: process.env.POSTGRES_DB,
-      models: [User, Role, UserRoles],
+      models: [User, Role, UserRoles, Post],
       autoLoadModels: true,
     }),
     UsersModule,
     RolesModule,
     AuthModule,
+    PostsModule,
   ],
 })
 export class AppModule {}
