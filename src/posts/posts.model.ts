@@ -11,8 +11,9 @@ import { User } from 'src/users/user.model';
 
 interface IPostCreationAttributes {
   title: string;
-  description: string;
+  content: string;
   imageSrc: string;
+  userId: number;
 }
 
 @Table({ tableName: 'posts' })
@@ -31,18 +32,24 @@ export class Post extends Model<Post, IPostCreationAttributes> {
   id: number;
 
   @ApiProperty({
-    example: 'Post title',
-    description: 'Title of post',
+    example: 'New post',
+    description: 'Post title',
     uniqueItems: true,
   })
   @Column({ type: DataType.STRING, unique: true, allowNull: false })
   title: string;
 
-  @ApiProperty({ example: 'Post content', description: 'Content of post' })
+  @ApiProperty({
+    example: 'New post',
+    description: 'Post content',
+  })
   @Column({ type: DataType.STRING, allowNull: false })
   content: string;
 
-  @ApiProperty({ example: 'Image src', description: 'Image src' })
+  @ApiProperty({
+    example: '9f079fb3-e969-410b-8602-94887ef3576f.jpg',
+    description: 'Post image src',
+  })
   @Column({ type: DataType.STRING })
   imageSrc: string;
 
@@ -50,8 +57,6 @@ export class Post extends Model<Post, IPostCreationAttributes> {
   author: User;
 
   @ForeignKey(() => User)
-  @Column({
-    type: DataType.NUMBER,
-  })
+  @Column({ type: DataType.NUMBER })
   userId: number;
 }
